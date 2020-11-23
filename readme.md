@@ -2,8 +2,11 @@
 
 ## Keyra verkefni
 Til þess að keyra verkefnið þarf að keyra eftirfarandi skipanir af skipanalínunni:
+
 npm install
+
 npm run dev
+
 Þá opnast vefsíðan í vafranum.
 
 Til þess að keyra eslint er eftirfarandi skipun keyrð:
