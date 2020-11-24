@@ -1,0 +1,20 @@
+@import "./config";
+
+.grid {
+  margin: 0 auto;
+  max-width: $max-width;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: ($gutter / -2);
+  margin-right: ($gutter / -2);
+}
+
+.col {
+  padding-left: ($gutter / 2);
+  padding-right: ($gutter / 2);
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -1,5 +1,6 @@
 function createVideos(data, videos) {
   var allVideos = document.createElement("div");
+  allVideos.className = "Catagory__flex row";
   videos.forEach((element) => {
     //create single video section
     var videoSection = document.createElement("div");
@@ -25,6 +26,31 @@ function createVideos(data, videos) {
     videoDuration.appendChild(videoDurationText);
     videoSection.appendChild(videoDuration);
 
+    //create Created
+
+    var videoCreated = document.createElement("span");
+    var oldDate = new Date(1604246400000);
+    var todayDate = new Date();
+
+    if ((oldDate - todayDate) / (1000 * 3600 * 24 * 365) > 1) {
+      console.log("Fyrir meira en einu ári síðan");
+    } else if (oldDate - todayDate / (1000 * 3600 * 24 * 30) > 1) {
+      console.log("Fyrir meira en x mánuðum síðan");
+    } else if (oldDate - todayDate / (1000 * 3600 * 24 * 7) > 1) {
+      console.log("Fyrir meira en x vikum síðan");
+    } else if (oldDate - todayDate / (1000 * 3600 * 24) > 1) {
+      console.log("Fyrir x mörgum dögum síðan");
+    } else if (oldDate - todayDate / (1000 * 3600) > 1) {
+      console.log("Fyrir x mörgum klukkstund/klukkustundum síðan");
+    }
+
+    var videoCreatedText = document.createTextNode(`${todayDate}`);
+
+    videoCreated.appendChild(videoCreatedText);
+    videoSection.appendChild(videoCreated);
+
+    //create heading
+
     var videoHeading = document.createElement("h3");
     var videoHeadingText = document.createTextNode(video.title);
     videoHeading.appendChild(videoHeadingText);
@@ -40,9 +66,9 @@ function createCategories(data) {
   var main = document.getElementById("main");
   data.categories.forEach((element) => {
     var categorySection = document.createElement("section");
-
+    categorySection.className = "Catagory";
     var categoryHeading = document.createElement("h2");
-    categoryHeading.className = "CategoryTitle";
+    categoryHeading.className = "Category__Title";
     var categoryHeadingText = document.createTextNode(element.title);
     categoryHeading.appendChild(categoryHeadingText);
 
