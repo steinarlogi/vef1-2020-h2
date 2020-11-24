@@ -25,6 +25,19 @@ function createVideos(data, videos) {
     videoDuration.appendChild(videoDurationText);
     videoSection.appendChild(videoDuration);
 
+    //create created
+
+    var videoCreated = document.createElement("span");
+    var correctCreatedWeeks = 0; // video.created
+    var correctCreatedDays = 0;
+    var correctCreatedHours = 0;
+    var videoCreatedText = document.createTextNode(
+      `${correctCreatedWeeks} : ${correctCreatedDays} : ${correctCreatedHours}`
+    );
+
+    videoCreated.appendChild(videoCreatedText);
+    videoSection.appendChild(videoCreated);
+
     var videoHeading = document.createElement("h3");
     var videoHeadingText = document.createTextNode(video.title);
     videoHeading.appendChild(videoHeadingText);
