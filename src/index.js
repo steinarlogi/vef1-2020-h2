@@ -1,1 +1,2 @@
-import "scripts.js"
+import "scripts.js";
+import "video.js";
