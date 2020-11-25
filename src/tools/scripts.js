@@ -3,12 +3,12 @@ export function createVideos(data, videos) {
   allVideos.className = 'Category__flex row';
   videos.forEach((element) => {
     //create single video section
-    var videoSection = document.createElement("div");
+    var videoSection = document.createElement("a");
 
     videoSection.className = 'col col-4 col-md-12 singleVideo';
     //title,description,duration,poster,video
     var video = data.videos.find((x) => x.id == element);
-
+    videoSection.href = `/video.html?id=${video.id}`;
     //create poster
 
     var videoPoster = document.createElement('img');
