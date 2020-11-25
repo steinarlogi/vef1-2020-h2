@@ -19,9 +19,19 @@ function makeVideoPage(data) {
     main.appendChild(createTitle(singleVideo.title));
 
     //video
+    let videoGridDiv = document.createElement('div');
+    videoGridDiv.className = 'playVideo grid';
+
+    let videoRowDiv = document.createElement('div');
+    videoRowDiv.className = 'row';
+
+    let videoDiv = document.createElement('div');
+    videoDiv.className = 'col col-12';
     var videoVideo = document.createElement("video");
     videoVideo.src = singleVideo.video;
-    main.appendChild(videoVideo);
+    videoDiv.appendChild(videoVideo);
+    videoRowDiv.appendChild(videoDiv);
+    videoGridDiv.appendChild(videoRowDiv);
 
     // back
 
@@ -36,20 +46,22 @@ function makeVideoPage(data) {
     // description
     var videoDescription = document.createElement("p");
     videoDescriptionText = document.createTextNode(singleVideo.description);
-    main.appendChild(videoDescription);
+    videoGridDiv.appendChild(videoDescription);
     videoDescription.appendChild(videoDescriptionText);
 
     // h2 - tengd myndbönd
     var videoRelated = document.createElement("h2");
     videoRelatedText = document.createTextNode("Tengd myndbönd");
-    main.appendChild(videoRelated);
+    videoGridDiv.appendChild(videoRelated);
     videoRelated.appendChild(videoRelatedText);
 
     // related videos
 
     var videoRelated = document.createElement("video");
     videoRelated.src = singleVideo.poster;
-    main.appendChild(videoRelated);
+    videoGridDiv.appendChild(videoRelated);
+
+    main.appendChild(videoGridDiv);
   } else {
     main.appendChild(createTitle("EKKERT ID!!!"));
   }
