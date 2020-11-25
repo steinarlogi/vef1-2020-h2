@@ -40,20 +40,33 @@ export function createVideos(data, videos) {
     //create Created
 
     var videoCreated = document.createElement('span');
-    var oldDate = new Date(1604246400000);
+    var oldDate = new Date(video.created);
     var todayDate = new Date();
 
-    if ((oldDate - todayDate) / (1000 * 3600 * 24 * 365) > 1) {
-      console.log('Fyrir meira en einu ári síðan');
-    } else if (oldDate - todayDate / (1000 * 3600 * 24 * 30) > 1) {
-      console.log('Fyrir meira en x mánuðum síðan');
-    } else if (oldDate - todayDate / (1000 * 3600 * 24 * 7) > 1) {
-      console.log('Fyrir meira en x vikum síðan');
-    } else if (oldDate - todayDate / (1000 * 3600 * 24) > 1) {
-      console.log('Fyrir x mörgum dögum síðan');
-    } else if (oldDate - todayDate / (1000 * 3600) > 1) {
-      console.log('Fyrir x mörgum klukkstund/klukkustundum síðan');
+    console.log(Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7)));
+
+    if (Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 365)) >= 1) {
+
+      console.log(`Fyrir ${Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 365))} ári síðan`);
+
+    } else if (Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 30)) >= 1) {
+
+      console.log(`Fyrir ${Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 30))}  mánuðum síðan`);
+
+    } else if ((Math.floor(todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7)) >= 1) {
+
+      console.log(`Fyrir meira en ${(Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 7)))} vikum síðan`);
+
+    } else if (Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24)) >= 1) {
+
+      console.log(`Fyrir ${(Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24)) >= 1)} mörgum dögum síðan`);
+
+    } else if (Math.floor(todayDate.getTime() - oldDate.getTime() / (1000 * 3600)) >= 1) {
+
+      console.log(`Fyrir ${(Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600)) >= 1)} mörgum klukkstund/klukkustundum síðan`);
+
     }
+
 
     var videoCreatedText = document.createTextNode(`${todayDate}`);
 
