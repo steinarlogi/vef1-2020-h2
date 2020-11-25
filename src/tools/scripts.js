@@ -21,8 +21,9 @@ export function createVideos(data, videos) {
     //create duration.
 
     var videoDuration = document.createElement('span');
-    var correctDurationMinutes = 0; //video.duration
-    var correctDurationSeconds = 0;
+    var correctDurationMinutes = Math.floor(video.duration/60); //video.duration
+    var correctDurationSeconds = Math.floor(video.duration - correctDurationMinutes * 60);
+    correctDurationSeconds < 10 ? correctDurationSeconds = ('0' + correctDurationSeconds) : correctDurationSeconds = correctDurationSeconds;
     var videoDurationText = document.createTextNode(
       `${correctDurationMinutes} : ${correctDurationSeconds}`
     );
@@ -43,32 +44,53 @@ export function createVideos(data, videos) {
     var oldDate = new Date(video.created);
     var todayDate = new Date();
 
-    console.log(Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7)));
+    const years = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 365));
+    const months = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 30));
+    const weeks = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7));
+    const day = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
+    const hours = Math.floor((todayDate.getTime() - oldDate.getTime())/ (1000 * 3600));
+    let string = "";
 
-    if (Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 365)) >= 1) {
+    if (years >= 1) {
 
-      console.log(`Fyrir ${Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 365))} ári síðan`);
+      years > 1 ?
+      string = `Fyrir ${years} árum síðan`
+      :
+      string = `Fyrir ${years} ári síðan`;
 
-    } else if (Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 30)) >= 1) {
+    } else if (months >= 1) {
 
-      console.log(`Fyrir ${Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 30))}  mánuðum síðan`);
+      months > 1 ?
+      string = `Fyrir ${months} mánuðum síðan`
+      :
+      string = `Fyrir ${months} mánuði síðan`;
 
-    } else if ((Math.floor(todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7)) >= 1) {
+    } else if (weeks >= 1) {
 
-      console.log(`Fyrir meira en ${(Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24 * 7)))} vikum síðan`);
+      weeks > 1 ?
+      string = `Fyrir ${weeks} vikum síðan`
+      :
+      string = `Fyrir ${weeks} viku síðan`;
 
-    } else if (Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24)) >= 1) {
+    } else if (days >= 1) {
 
-      console.log(`Fyrir ${(Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600 * 24)) >= 1)} mörgum dögum síðan`);
+      days > 1 ?
+      string = `Fyrir ${days} dögum síðan`
+      :
+      string = `Fyrir ${days} degi síðan`;
 
-    } else if (Math.floor(todayDate.getTime() - oldDate.getTime() / (1000 * 3600)) >= 1) {
+    } else if (hours >= 1) {
 
-      console.log(`Fyrir ${(Math.floor((todayDate.getTime()-oldDate.getTime()) / (1000 * 3600)) >= 1)} mörgum klukkstund/klukkustundum síðan`);
-
+      hours > 1 ?
+      string = `Fyrir ${hours} klukkustundum síðan`
+      :
+      string = `Fyrir ${hours} klukkustund síðan`;
+    } else {
+      string = `Fyrir minna en 1 klukkustund síðan`;
     }
 
 
-    var videoCreatedText = document.createTextNode(`${todayDate}`);
+    var videoCreatedText = document.createTextNode(string);
 
     videoCreated.appendChild(videoCreatedText);
     videoSection.appendChild(videoCreated);

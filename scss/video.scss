@@ -1,7 +1,16 @@
 .singleVideo {
 
+  margin-bottom: 1em;
+  text-decoration: none;
+
   h3 {
+    color: #000;
+    margin-bottom: 0.5em;
     padding-top: 0.5em;
+  }
+
+  & > span {
+    color: #000;
   }
 
   &__image {
@@ -20,6 +29,8 @@
     flex-direction: column;
     height: 9%;
     justify-content: center;
+    min-height: 32px;
+    min-width: 48px;
     position: absolute;
     right: 3%;
     text-align: center;
