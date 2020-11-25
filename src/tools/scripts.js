@@ -27,7 +27,15 @@ export function createVideos(data, videos) {
       `${correctDurationMinutes} : ${correctDurationSeconds}`
     );
     videoDuration.appendChild(videoDurationText);
-    videoSection.appendChild(videoDuration);
+    imgDiv.appendChild(videoDuration);
+
+    //create heading
+
+    var videoHeading = document.createElement('h3');
+    var videoHeadingText = document.createTextNode(video.title);
+    videoHeading.appendChild(videoHeadingText);
+
+    videoSection.appendChild(videoHeading);
 
     //create Created
 
@@ -52,14 +60,6 @@ export function createVideos(data, videos) {
     videoCreated.appendChild(videoCreatedText);
     videoSection.appendChild(videoCreated);
 
-    //create heading
-
-    var videoHeading = document.createElement('h3');
-    var videoHeadingText = document.createTextNode(video.title);
-    videoHeading.appendChild(videoHeadingText);
-
-    videoSection.appendChild(videoHeading);
-
     allVideos.appendChild(videoSection);
   });
   return allVideos;
@@ -67,6 +67,7 @@ export function createVideos(data, videos) {
 
 export function createCategories(data) {
   var main = document.getElementById('main');
+  main.className = 'grid';
   data.categories.forEach((element) => {
     var categorySection = document.createElement('section');
     categorySection.className = 'Category';
@@ -78,6 +79,11 @@ export function createCategories(data) {
     categorySection.appendChild(categoryHeading);
     categorySection.appendChild(createVideos(data, element.videos));
 
+    const lineDiv = document.createElement('div');
+    lineDiv.className = 'line-div'
+
+    categorySection.appendChild(lineDiv);
     main.appendChild(categorySection);
+
   });
 }
