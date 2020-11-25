@@ -1,0 +1,16 @@
+.Category {
+
+  &__Title {
+    font-size: 2em;
+    padding: 1em;
+    padding-left: 0;
+    padding-top: 0;
+  }
+
+  .line-div {
+    background-color: #000;
+    height: 1px;
+    margin: 3em auto;
+    width: 80%;
+  }
+}

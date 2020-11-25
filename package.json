@@ -10,7 +10,7 @@
     "babel-watch": "babel src --out-dir dist --watch",
     "browser-sync": "browser-sync start --server --files index.html dist/*.js scss/*.scss",
     "sass": "node-sass --source-map-embed styles.scss styles.css",
-    "sass-watch": "node-sass --source-map-embed --watch scss/styles.scss --recursive css/styles.css",
+    "sass-watch": "node-sass --source-map-embed  -w scss/styles.scss -o css",
     "stylelint": "stylelint styles.scss ./**/*.scss",
     "dev": "concurrently npm:browser-sync npm:sass-watch npm:rollup-watch"
   },
