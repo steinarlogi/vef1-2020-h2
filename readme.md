@@ -21,3 +21,5 @@ npm run stylelint
 Steinar Logi Geirsson - HÍ notendanafn: slg24@hi.is - github notendanafn: steinarlogi
 
 Loftur Páll Eiriksson - HÍ notendanafn: lpe1@hi.is - github notendanafn: loftur5
+
+Bjarni Barkarson - HÍ notendanafn: bjb36@hi.is  - github notendanafn: bjarnigithub
