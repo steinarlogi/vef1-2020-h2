@@ -1,8 +1,19 @@
 @import "./config";
 
-.grid {
-  margin: 0 auto;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
   max-width: $max-width;
+  margin: auto;
+}
+
+.grid {
+  width: 100%;
+  margin: 0 auto;
 }
 
 .row {
@@ -16,5 +27,14 @@
   padding-left: ($gutter / 2);
   padding-right: ($gutter / 2);
   width: 100%;
-  box-sizing: border-box;
+}
+
+.col-4 {
+  width: (100% / 3);
+}
+
+@media(max-width: 600px) {
+  .col-md-12 {
+    width: 100%;
+  }
 }
