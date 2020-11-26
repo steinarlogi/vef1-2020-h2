@@ -109,11 +109,6 @@ function createVideos(data, videos) {
     //create Created
     allVideos.appendChild(createCreatedDate(video.created));
 
-    // var videoCreatedText = document.createTextNode(`${todayDate}`);
-
-    //videoCreated.appendChild(videoCreatedText);
-    //videoSection.appendChild(videoCreated);
-
     allVideos.appendChild(videoSection);
   });
   return allVideos;

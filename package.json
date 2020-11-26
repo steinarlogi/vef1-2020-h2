@@ -9,7 +9,7 @@
     "babel": "babel src --out-dir dist",
     "babel-watch": "babel src --out-dir dist --watch",
     "browser-sync": "browser-sync start --server --files index.html dist/*.js scss/*.scss",
-    "sass": "node-sass --source-map-embed styles.scss styles.css",
+    "sass": "node-sass --source-map-embed -i ./scss/styles.scss ./css/styles.css",
     "sass-watch": "node-sass --source-map-embed  -w scss/styles.scss -o css",
     "stylelint": "stylelint styles.scss ./**/*.scss",
     "dev": "concurrently npm:browser-sync npm:sass-watch npm:rollup-watch"
@@ -32,6 +32,7 @@
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
+    "browser-sync": "^2.26.13",
     "browsersync": "0.0.1-security",
     "concurrently": "^5.3.0",
     "eslint": "^7.14.0",
@@ -41,6 +42,7 @@
     "rollup": "^2.33.3",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.29.0",
     "stylelint": "^13.8.0",
     "stylelint-config-sass-guidelines": "^7.1.0",
     "stylelint-config-standard": "^20.0.0"

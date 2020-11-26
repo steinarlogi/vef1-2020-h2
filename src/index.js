@@ -1,3 +1,4 @@
+import "video.js";
 import { createCategories } from "./tools/scripts.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
