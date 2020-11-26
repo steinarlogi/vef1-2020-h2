@@ -1,3 +1,78 @@
+function createDuration(duration) {
+  var worker = parseInt(duration, 10);
+  var hours = 0;
+  var minutes = 0;
+  var seconds = 0;
+
+  while (worker >= 3600) {
+    hours += 1;
+    worker -= 3600;
+  }
+
+  while (worker >= 60) {
+    minutes += 1;
+    worker -= 60;
+  }
+
+  seconds = worker;
+  return `${hours === 0 ? "" : hours > 9 ? hours + ":" : "0" + hours + ":"}${
+    minutes === 0 ? "00" : minutes > 9 ? minutes : "0" + minutes
+  }:${seconds > 9 ? seconds : "0" + seconds}`;
+}
+
+function createCreatedDate(time) {
+  var oldDate = new Date(time);
+  var todayDate = new Date();
+
+  const years = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 365));
+  const months = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 30));
+  const weeks = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7));
+  const days = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
+  const hours = Math.floor((todayDate.getTime() - oldDate.getTime())/ (1000 * 3600));
+  let string = "";
+
+  if (years >= 1) {
+
+    years > 1 ?
+    string = `Fyrir ${years} árum síðan`
+    :
+    string = `Fyrir ${years} ári síðan`;
+
+  } else if (months >= 1) {
+
+    months > 1 ?
+    string = `Fyrir ${months} mánuðum síðan`
+    :
+    string = `Fyrir ${months} mánuði síðan`;
+
+  } else if (weeks >= 1) {
+
+    weeks > 1 ?
+    string = `Fyrir ${weeks} vikum síðan`
+    :
+    string = `Fyrir ${weeks} viku síðan`;
+
+  } else if (days >= 1) {
+
+    days > 1 ?
+    string = `Fyrir ${days} dögum síðan`
+    :
+    string = `Fyrir ${days} degi síðan`;
+
+  } else if (hours >= 1) {
+
+    hours > 1 ?
+    string = `Fyrir ${hours} klukkustundum síðan`
+    :
+    string = `Fyrir ${hours} klukkustund síðan`;
+  } else {
+    string = `Fyrir minna en 1 klukkustund síðan`;
+  }
+
+  return string;
+}
+
+
 function createTitle(title) {
   var categoryHeading = document.createElement("h1");
   categoryHeading.className = "singleVideo__Title";
@@ -6,106 +81,62 @@ function createTitle(title) {
   return categoryHeading;
 }
 
-function makeRelatedVideosSection(id, data) {
-  let sec = document.createElement('section');
-  sec.className = 'Category';
+// h2 - tengd myndbönd
+function createRelatedVideos(data, singleVideo) {
+  var allRelatedVideos = document.createElement("section");
+  allRelatedVideos.className = 'Category grid';
+  var videoRelatedHeading = document.createElement("h2");
+  videoRelatedHeading.className = 'Category__Title';
+  var videoRelatedHeadingText = document.createTextNode("Tengd myndbönd");
+  videoRelatedHeading.appendChild(videoRelatedHeadingText);
 
-  sec.innerHtml = '<h2 class="Category__Title">Nýleg myndbönd</h2>';
+  allRelatedVideos.appendChild(videoRelatedHeading);
 
-  let cDiv = document.createElement('div');
-  cDiv.className = 'Category__flex row';
+  var videoRelatedVideos = document.createElement("div");
+  videoRelatedVideos.className = 'Category__flex row';
+  data.videos
+    .filter((x) => singleVideo.related.indexOf(x.id) > -1)
+    .forEach((element) => {
+      // related videos
+      // link
+      var videoRelated = document.createElement("a");
+      videoRelated.className = 'col col-4 col-md-12 singleVideo';
+      videoRelated.href = `/videos.html?id=${element.id}`;
+      // poster
+      let div = document.createElement('div');
+      div.className = 'singleVideo__image';
 
-  let nowPlaying = data.videos.find((x) => x.id == id);
+      var videoRelatedImg = document.createElement("img");
+      videoRelatedImg.src = element.poster;
+      div.appendChild(videoRelatedImg);
 
-  nowPlaying.related.forEach((x) => {
+      // duration
+      var videoRelatedDuration = document.createElement("span");
+      var videoRelatedDurationText = document.createTextNode(
+        createDuration(element.duration)
+      );
+      videoRelatedDuration.appendChild(videoRelatedDurationText);
+      div.appendChild(videoRelatedDuration);
 
-    let a = document.createElement('a');
-    a.className = 'col col-4 col-md-12 singleVideo';
-    a.href = '/video.html?id=' + x.id;
+      videoRelated.appendChild(div);
 
-    let singleVideoDiv = document.createElement('div');
-    singleVideoDiv.className = 'singleVideo__image';
+      // titill
+      var videoRelatedText = document.createElement("h3");
+      var videoRelatedTextNode = document.createTextNode(element.title);
+      videoRelatedText.appendChild(videoRelatedTextNode);
+      videoRelated.appendChild(videoRelatedText);
 
-    let img = document.createElement('img');
-    img.src = x.poster;
+      let videoRelatedCreated = document.createElement('span');
+      videoRelatedCreated.appendChild(document.createTextNode(createCreatedDate(element.created)));
+      console.log(createCreatedDate(element.created));
+      videoRelated.append(videoRelatedCreated);
 
-    let videoDuration = document.createElement('span');
-    let correctDurationMinutes = Math.floor(x.duration/60); //video.duration
-    let correctDurationSeconds = Math.floor(x.duration - correctDurationMinutes * 60);
-    correctDurationSeconds < 10 ? correctDurationSeconds = ('0' + correctDurationSeconds) : correctDurationSeconds = correctDurationSeconds;
-    let videoDurationText = document.createTextNode(
-      `${correctDurationMinutes} : ${correctDurationSeconds}`
-    );
+      // created
 
-    singleVideoDiv.appendChild(img);
-    singleVideoDiv.appendChild(videoDuration);
-
-    a.appendChild(singleVideoDiv);
-
-    let heading = document.createElement('h3');
-    heading.innerHtml = x.title;
-
-    let created = document.createElement('span');
-    var oldDate = new Date(x.created);
-    var todayDate = new Date();
-
-    const years = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 365));
-    const months = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 30));
-    const weeks = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7));
-    const days = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
-    const hours = Math.floor((todayDate.getTime() - oldDate.getTime())/ (1000 * 3600));
-    let string = "";
-
-    if (years >= 1) {
-
-      years > 1 ?
-      string = `Fyrir ${years} árum síðan`
-      :
-      string = `Fyrir ${years} ári síðan`;
-
-    } else if (months >= 1) {
-
-      months > 1 ?
-      string = `Fyrir ${months} mánuðum síðan`
-      :
-      string = `Fyrir ${months} mánuði síðan`;
-
-    } else if (weeks >= 1) {
-
-      weeks > 1 ?
-      string = `Fyrir ${weeks} vikum síðan`
-      :
-      string = `Fyrir ${weeks} viku síðan`;
-
-    } else if (days >= 1) {
-
-      days > 1 ?
-      string = `Fyrir ${days} dögum síðan`
-      :
-      string = `Fyrir ${days} degi síðan`;
-
-    } else if (hours >= 1) {
-
-      hours > 1 ?
-      string = `Fyrir ${hours} klukkustundum síðan`
-      :
-      string = `Fyrir ${hours} klukkustund síðan`;
-    } else {
-      string = `Fyrir minna en 1 klukkustund síðan`;
-    }
-
-    created.innerHtml = string;
-
-    a.appendChild(heading);
-    a.appendChild(created);
-
-    cDiv.appendChild(a);
-  });
-
-  sec.appendChild(cDiv);
-  const lineDiv = document.createElement('div');
-  lineDiv.className = 'line-div'
-  sec.appendChild(lineDiv);
+      videoRelatedVideos.appendChild(videoRelated);
+    });
+  allRelatedVideos.appendChild(videoRelatedVideos);
+  return allRelatedVideos;
 }
 
 function makeVideoPage(data) {
@@ -122,14 +153,14 @@ function makeVideoPage(data) {
     main.appendChild(createTitle(singleVideo.title));
 
     //video
-    let videoGridDiv = document.createElement('div');
-    videoGridDiv.className = 'playVideo grid';
+    let videoGridDiv = document.createElement("div");
+    videoGridDiv.className = "playVideo grid";
 
-    let videoRowDiv = document.createElement('div');
-    videoRowDiv.className = 'row';
+    let videoRowDiv = document.createElement("div");
+    videoRowDiv.className = "row";
 
-    let videoDiv = document.createElement('div');
-    videoDiv.className = 'col col-12';
+    let videoDiv = document.createElement("div");
+    videoDiv.className = "col col-12";
     var videoVideo = document.createElement("video");
     videoVideo.src = singleVideo.video;
     videoDiv.appendChild(videoVideo);
@@ -148,7 +179,7 @@ function makeVideoPage(data) {
     imageVideoBackButton.src = "../../img/back.svg";
     imageVideoBackButton.className = "image_button";
     videoBackButton.appendChild(imageVideoBackButton);
-    buttonContainer.appendChild(videoBackButton)
+    buttonContainer.appendChild(videoBackButton);
     //videoGridDiv.appendChild(videoBackButton);
 
     // play - pause
@@ -158,18 +189,17 @@ function makeVideoPage(data) {
     imageVideoPlayButton.src = "../../img/play.svg";
     imageVideoPlayButton.className = "image_button";
     videoPlayButton.appendChild(imageVideoPlayButton);
-    buttonContainer.appendChild(videoPlayButton)
+    buttonContainer.appendChild(videoPlayButton);
     //videoGridDiv.appendChild(videoPlayButton);
 
     //switch between play and pause
     var hasPlayButtonBeenPressed = false;
-    videoPlayButton.addEventListener("click",changeBackButton);
-    function changeBackButton(){
-      if(hasPlayButtonBeenPressed === false){
+    videoPlayButton.addEventListener("click", changeBackButton);
+    function changeBackButton() {
+      if (hasPlayButtonBeenPressed === false) {
         imageVideoPlayButton.src = "../../img/pause.svg";
         hasPlayButtonBeenPressed = true;
-      }
-      else{
+      } else {
         imageVideoPlayButton.src = "../../img/play.svg";
         hasPlayButtonBeenPressed = false;
       }
@@ -182,18 +212,17 @@ function makeVideoPage(data) {
     imageVideoMuteButton.src = "../../img/unmute.svg";
     imageVideoMuteButton.className = "image_button";
     videoMuteButton.appendChild(imageVideoMuteButton);
-    buttonContainer.appendChild(videoMuteButton)
+    buttonContainer.appendChild(videoMuteButton);
     //videoGridDiv.appendChild(videoMuteButton);
 
     //switch between mute and unmute
     var hasMuteButtonBeenPressed = false;
-    videoMuteButton.addEventListener("click",changeMuteButton);
-    function changeMuteButton(){
-      if(hasMuteButtonBeenPressed === false){
+    videoMuteButton.addEventListener("click", changeMuteButton);
+    function changeMuteButton() {
+      if (hasMuteButtonBeenPressed === false) {
         imageVideoMuteButton.src = "../../img/mute.svg";
         hasMuteButtonBeenPressed = true;
-      }
-      else{
+      } else {
         imageVideoMuteButton.src = "../../img/unmute.svg";
         hasMuteButtonBeenPressed = false;
       }
@@ -206,7 +235,7 @@ function makeVideoPage(data) {
     imageVideoFullscreenButton.src = "../../img/fullscreen.svg";
     imageVideoFullscreenButton.className = "image_button";
     videoFullscreenButton.appendChild(imageVideoFullscreenButton);
-    buttonContainer.appendChild(videoFullscreenButton)
+    buttonContainer.appendChild(videoFullscreenButton);
     //videoGridDiv.appendChild(videoFullscreenButton);
 
     // next
@@ -216,23 +245,23 @@ function makeVideoPage(data) {
     imageVideoNextButton.src = "../../img/next.svg";
     imageVideoNextButton.className = "image_button";
     videoNextButton.appendChild(imageVideoNextButton);
-    buttonContainer.appendChild(videoNextButton)
+    buttonContainer.appendChild(videoNextButton);
     //videoGridDiv.appendChild(videoNextButton);
 
     // append button container to videoGridDiv
-    videoGridDiv.appendChild(buttonContainer);
+
 
     // description
     var videoDescription = document.createElement("p");
     videoDescriptionText = document.createTextNode(singleVideo.description);
+    videoDescription.appendChild(videoDescriptionText);
+    videoGridDiv.appendChild(buttonContainer);
     videoGridDiv.appendChild(videoDescription);
     videoDescription.appendChild(videoDescriptionText);
 
-    //tengd myndbönd
-    let relVideos = makeRelatedVideosSection(parseInt(idParam), data);
-    //videoGridDiv.appendChild(relVideos, data);
-
     main.appendChild(videoGridDiv);
+    // related videos
+    main.appendChild(createRelatedVideos(data, singleVideo));
   } else {
     main.appendChild(createTitle("EKKERT ID!!!"));
   }
