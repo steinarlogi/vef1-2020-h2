@@ -122,13 +122,6 @@ function createRelatedVideos(data, singleVideo) {
       videoRelatedText.appendChild(videoRelatedTextNode);
       videoRelated.appendChild(videoRelatedText);
 
-      let videoRelatedCreated = document.createElement("span");
-      videoRelatedCreated.appendChild(
-        document.createTextNode(createCreatedDate(element.created))
-      );
-      console.log(createCreatedDate(element.created));
-      videoRelated.append(videoRelatedCreated);
-
       // created
       videoRelated.appendChild(createCreatedDate(element.created));
 
