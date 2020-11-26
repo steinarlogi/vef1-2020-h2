@@ -107,7 +107,61 @@ function createVideos(data, videos) {
     videoSection.appendChild(videoHeading);
 
     //create Created
-    allVideos.appendChild(createCreatedDate(video.created));
+
+    var videoCreated = document.createElement('span');
+    var oldDate = new Date(video.created);
+    var todayDate = new Date();
+
+    const years = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 365));
+    const months = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 30));
+    const weeks = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7));
+    const days = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
+    const hours = Math.floor((todayDate.getTime() - oldDate.getTime())/ (1000 * 3600));
+    let string = "";
+
+    if (years >= 1) {
+
+      years > 1 ?
+      string = `Fyrir ${years} árum síðan`
+      :
+      string = `Fyrir ${years} ári síðan`;
+
+    } else if (months >= 1) {
+
+      months > 1 ?
+      string = `Fyrir ${months} mánuðum síðan`
+      :
+      string = `Fyrir ${months} mánuði síðan`;
+
+    } else if (weeks >= 1) {
+
+      weeks > 1 ?
+      string = `Fyrir ${weeks} vikum síðan`
+      :
+      string = `Fyrir ${weeks} viku síðan`;
+
+    } else if (days >= 1) {
+
+      days > 1 ?
+      string = `Fyrir ${days} dögum síðan`
+      :
+      string = `Fyrir ${days} degi síðan`;
+
+    } else if (hours >= 1) {
+
+      hours > 1 ?
+      string = `Fyrir ${hours} klukkustundum síðan`
+      :
+      string = `Fyrir ${hours} klukkustund síðan`;
+    } else {
+      string = `Fyrir minna en 1 klukkustund síðan`;
+    }
+
+
+    var videoCreatedText = document.createTextNode(string);
+
+    videoCreated.appendChild(videoCreatedText);
+    videoSection.appendChild(videoCreated);
 
     allVideos.appendChild(videoSection);
   });

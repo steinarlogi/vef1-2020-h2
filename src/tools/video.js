@@ -79,25 +79,32 @@ function createTitle(title) {
 
 // h2 - tengd myndbönd
 function createRelatedVideos(data, singleVideo) {
-  var allRelatedVideos = document.createElement("div");
+  var allRelatedVideos = document.createElement("section");
+  allRelatedVideos.className = "Category grid";
   var videoRelatedHeading = document.createElement("h2");
+  videoRelatedHeading.className = "Category__Title";
   var videoRelatedHeadingText = document.createTextNode("Tengd myndbönd");
   videoRelatedHeading.appendChild(videoRelatedHeadingText);
 
   allRelatedVideos.appendChild(videoRelatedHeading);
 
   var videoRelatedVideos = document.createElement("div");
+  videoRelatedVideos.className = "Category__flex row";
   data.videos
     .filter((x) => singleVideo.related.indexOf(x.id) > -1)
     .forEach((element) => {
       // related videos
       // link
       var videoRelated = document.createElement("a");
+      videoRelated.className = "col col-4 col-md-12 singleVideo";
       videoRelated.href = `/video.html?id=${element.id}`;
       // poster
+      let div = document.createElement("div");
+      div.className = "singleVideo__image";
+
       var videoRelatedImg = document.createElement("img");
       videoRelatedImg.src = element.poster;
-      videoRelated.appendChild(videoRelatedImg);
+      div.appendChild(videoRelatedImg);
 
       // duration
       var videoRelatedDuration = document.createElement("span");
@@ -105,13 +112,22 @@ function createRelatedVideos(data, singleVideo) {
         createDuration(element.duration)
       );
       videoRelatedDuration.appendChild(videoRelatedDurationText);
-      videoRelated.appendChild(videoRelatedDuration);
+      div.appendChild(videoRelatedDuration);
+
+      videoRelated.appendChild(div);
 
       // titill
       var videoRelatedText = document.createElement("h3");
       var videoRelatedTextNode = document.createTextNode(element.title);
       videoRelatedText.appendChild(videoRelatedTextNode);
       videoRelated.appendChild(videoRelatedText);
+
+      let videoRelatedCreated = document.createElement("span");
+      videoRelatedCreated.appendChild(
+        document.createTextNode(createCreatedDate(element.created))
+      );
+      console.log(createCreatedDate(element.created));
+      videoRelated.append(videoRelatedCreated);
 
       // created
       videoRelated.appendChild(createCreatedDate(element.created));
@@ -125,6 +141,7 @@ function createRelatedVideos(data, singleVideo) {
 function makeVideoPage(data) {
   const urlParams = new URLSearchParams(window.location.search);
   const idParam = urlParams.get("id");
+
   var main = document.getElementById("main");
   if (idParam !== null) {
     var singleVideo = data.videos.find((x) => x.id == parseInt(idParam, 10));
@@ -154,7 +171,7 @@ function makeVideoPage(data) {
     // container around buttons
 
     var buttonContainer = document.createElement("div");
-    buttonContainer.className = "button_container";
+    buttonContainer.className = "row button_container";
 
     // back
 
@@ -257,14 +274,16 @@ function makeVideoPage(data) {
     //videoGridDiv.appendChild(videoNextButton);
 
     // append button container to videoGridDiv
-    videoGridDiv.appendChild(buttonContainer);
 
     // description
     var videoDescription = document.createElement("p");
     videoDescriptionText = document.createTextNode(singleVideo.description);
+    videoDescription.appendChild(videoDescriptionText);
+    videoGridDiv.appendChild(buttonContainer);
     videoGridDiv.appendChild(videoDescription);
     videoDescription.appendChild(videoDescriptionText);
 
+    main.appendChild(videoGridDiv);
     // related videos
     main.appendChild(createRelatedVideos(data, singleVideo));
   } else {
