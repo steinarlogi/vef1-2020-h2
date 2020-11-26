@@ -20,6 +20,55 @@ function createDuration(duration) {
   }:${seconds > 9 ? seconds : "0" + seconds}`;
 }
 
+function createCreatedDate(created) {
+  var videoCreated = document.createElement("span");
+  var oldDate = new Date(created);
+  var todayDate = new Date();
+  var text = "";
+  var diffTime = Math.abs(oldDate - todayDate);
+  if (Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365)) >= 1) {
+    var value = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
+    if (value === 1) {
+      text = `Fyrir 1 ári síðan`;
+    } else {
+      text = `Fyrir ${value} árum síðan`;
+    }
+  } else if (Math.floor(diffTime / (1000 * 60 * 60 * 24 * 30)) >= 1) {
+    var value = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 30));
+    if (value === 1) {
+      text = `Fyrir 1 mánuði síðan`;
+    } else {
+      text = `Fyrir ${value} mánuðum síðan`;
+    }
+  } else if (Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7)) >= 1) {
+    var value = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+    if (value === 1) {
+      text = `Fyrir 1 viku síðan`;
+    } else {
+      text = `Fyrir ${value} vikum síðan`;
+    }
+  } else if (Math.floor(diffTime / (1000 * 60 * 60 * 24)) >= 1) {
+    var value = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    if (value === 1) {
+      text = `Fyrir 1 degi síðan`;
+    } else {
+      text = `Fyrir ${value} dögum síðan`;
+    }
+  } else if (Math.floor(diffTime / (1000 * 60 * 60)) >= 1) {
+    var value = Math.floor(diffTime / (1000 * 60 * 60));
+    if (value === 1) {
+      text = `Fyrir 1 klukkustund síðan`;
+    } else {
+      text = `Fyrir ${value} klukkustundum síðan`;
+    }
+  }
+
+  var videoCreatedText = document.createTextNode(text);
+  videoCreated.appendChild(videoCreatedText);
+
+  return videoCreated;
+}
+
 function createTitle(title) {
   var categoryHeading = document.createElement("h1");
   categoryHeading.className = "singleVideo__Title";
@@ -44,7 +93,7 @@ function createRelatedVideos(data, singleVideo) {
       // related videos
       // link
       var videoRelated = document.createElement("a");
-      videoRelated.href = `/videos.html?id=${element.id}`;
+      videoRelated.href = `/video.html?id=${element.id}`;
       // poster
       var videoRelatedImg = document.createElement("img");
       videoRelatedImg.src = element.poster;
@@ -65,6 +114,7 @@ function createRelatedVideos(data, singleVideo) {
       videoRelated.appendChild(videoRelatedText);
 
       // created
+      videoRelated.appendChild(createCreatedDate(element.created));
 
       videoRelatedVideos.appendChild(videoRelated);
     });
@@ -95,9 +145,11 @@ function makeVideoPage(data) {
     videoDiv.className = "col col-12";
     var videoVideo = document.createElement("video");
     videoVideo.src = singleVideo.video;
+    videoVideo.id = "video";
     videoDiv.appendChild(videoVideo);
     videoRowDiv.appendChild(videoDiv);
     videoGridDiv.appendChild(videoRowDiv);
+    main.appendChild(videoGridDiv);
 
     // container around buttons
 
@@ -112,6 +164,11 @@ function makeVideoPage(data) {
     imageVideoBackButton.className = "image_button";
     videoBackButton.appendChild(imageVideoBackButton);
     buttonContainer.appendChild(videoBackButton);
+    videoBackButton.addEventListener("click", backwardTime);
+    function backwardTime() {
+      var covid = document.getElementById("video");
+      covid.currentTime = covid.currentTime - 3;
+    }
     //videoGridDiv.appendChild(videoBackButton);
 
     // play - pause
@@ -128,12 +185,15 @@ function makeVideoPage(data) {
     var hasPlayButtonBeenPressed = false;
     videoPlayButton.addEventListener("click", changeBackButton);
     function changeBackButton() {
+      var covid = document.getElementById("video");
       if (hasPlayButtonBeenPressed === false) {
         imageVideoPlayButton.src = "../../img/pause.svg";
         hasPlayButtonBeenPressed = true;
+        covid.play();
       } else {
         imageVideoPlayButton.src = "../../img/play.svg";
         hasPlayButtonBeenPressed = false;
+        covid.pause();
       }
     }
 
@@ -151,12 +211,15 @@ function makeVideoPage(data) {
     var hasMuteButtonBeenPressed = false;
     videoMuteButton.addEventListener("click", changeMuteButton);
     function changeMuteButton() {
+      var covid = document.getElementById("video");
       if (hasMuteButtonBeenPressed === false) {
         imageVideoMuteButton.src = "../../img/mute.svg";
         hasMuteButtonBeenPressed = true;
+        covid.muted = true;
       } else {
         imageVideoMuteButton.src = "../../img/unmute.svg";
         hasMuteButtonBeenPressed = false;
+        covid.muted = false;
       }
     }
 
@@ -168,6 +231,12 @@ function makeVideoPage(data) {
     imageVideoFullscreenButton.className = "image_button";
     videoFullscreenButton.appendChild(imageVideoFullscreenButton);
     buttonContainer.appendChild(videoFullscreenButton);
+    var hasFullscreenButtonBeenPressed = false;
+    videoFullscreenButton.addEventListener("click", openFullscreen);
+    function openFullscreen() {
+      var covid = document.getElementById("video");
+      covid.requestFullscreen();
+    }
     //videoGridDiv.appendChild(videoFullscreenButton);
 
     // next
@@ -178,6 +247,13 @@ function makeVideoPage(data) {
     imageVideoNextButton.className = "image_button";
     videoNextButton.appendChild(imageVideoNextButton);
     buttonContainer.appendChild(videoNextButton);
+    var hasNextButtonBeenPressed = true;
+    videoNextButton.addEventListener("click", forwardTime);
+    function forwardTime() {
+      var covid = document.getElementById("video");
+      covid.currentTime = covid.currentTime + 3;
+    }
+
     //videoGridDiv.appendChild(videoNextButton);
 
     // append button container to videoGridDiv
