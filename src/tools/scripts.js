@@ -47,7 +47,7 @@ export function createVideos(data, videos) {
     const years = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 365));
     const months = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 30));
     const weeks = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7));
-    const day = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
+    const days = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
     const hours = Math.floor((todayDate.getTime() - oldDate.getTime())/ (1000 * 3600));
     let string = "";
 

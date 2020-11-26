@@ -6,9 +6,112 @@ function createTitle(title) {
   return categoryHeading;
 }
 
+function makeRelatedVideosSection(id, data) {
+  let sec = document.createElement('section');
+  sec.className = 'Category';
+
+  sec.innerHtml = '<h2 class="Category__Title">Nýleg myndbönd</h2>';
+
+  let cDiv = document.createElement('div');
+  cDiv.className = 'Category__flex row';
+
+  let nowPlaying = data.videos.find((x) => x.id == id);
+
+  nowPlaying.related.forEach((x) => {
+
+    let a = document.createElement('a');
+    a.className = 'col col-4 col-md-12 singleVideo';
+    a.href = '/video.html?id=' + x.id;
+
+    let singleVideoDiv = document.createElement('div');
+    singleVideoDiv.className = 'singleVideo__image';
+
+    let img = document.createElement('img');
+    img.src = x.poster;
+
+    let videoDuration = document.createElement('span');
+    let correctDurationMinutes = Math.floor(x.duration/60); //video.duration
+    let correctDurationSeconds = Math.floor(x.duration - correctDurationMinutes * 60);
+    correctDurationSeconds < 10 ? correctDurationSeconds = ('0' + correctDurationSeconds) : correctDurationSeconds = correctDurationSeconds;
+    let videoDurationText = document.createTextNode(
+      `${correctDurationMinutes} : ${correctDurationSeconds}`
+    );
+
+    singleVideoDiv.appendChild(img);
+    singleVideoDiv.appendChild(videoDuration);
+
+    a.appendChild(singleVideoDiv);
+
+    let heading = document.createElement('h3');
+    heading.innerHtml = x.title;
+
+    let created = document.createElement('span');
+    var oldDate = new Date(x.created);
+    var todayDate = new Date();
+
+    const years = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 365));
+    const months = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 30));
+    const weeks = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24 * 7));
+    const days = Math.floor((todayDate.getTime() - oldDate.getTime()) / (1000 * 3600 * 24));
+    const hours = Math.floor((todayDate.getTime() - oldDate.getTime())/ (1000 * 3600));
+    let string = "";
+
+    if (years >= 1) {
+
+      years > 1 ?
+      string = `Fyrir ${years} árum síðan`
+      :
+      string = `Fyrir ${years} ári síðan`;
+
+    } else if (months >= 1) {
+
+      months > 1 ?
+      string = `Fyrir ${months} mánuðum síðan`
+      :
+      string = `Fyrir ${months} mánuði síðan`;
+
+    } else if (weeks >= 1) {
+
+      weeks > 1 ?
+      string = `Fyrir ${weeks} vikum síðan`
+      :
+      string = `Fyrir ${weeks} viku síðan`;
+
+    } else if (days >= 1) {
+
+      days > 1 ?
+      string = `Fyrir ${days} dögum síðan`
+      :
+      string = `Fyrir ${days} degi síðan`;
+
+    } else if (hours >= 1) {
+
+      hours > 1 ?
+      string = `Fyrir ${hours} klukkustundum síðan`
+      :
+      string = `Fyrir ${hours} klukkustund síðan`;
+    } else {
+      string = `Fyrir minna en 1 klukkustund síðan`;
+    }
+
+    created.innerHtml = string;
+
+    a.appendChild(heading);
+    a.appendChild(created);
+
+    cDiv.appendChild(a);
+  });
+
+  sec.appendChild(cDiv);
+  const lineDiv = document.createElement('div');
+  lineDiv.className = 'line-div'
+  sec.appendChild(lineDiv);
+}
+
 function makeVideoPage(data) {
   const urlParams = new URLSearchParams(window.location.search);
   const idParam = urlParams.get("id");
+
   var main = document.getElementById("main");
   if (idParam !== null) {
     var singleVideo = data.videos.find((x) => x.id == parseInt(idParam, 10));
@@ -36,7 +139,7 @@ function makeVideoPage(data) {
     // container around buttons
 
     var buttonContainer = document.createElement("div");
-    buttonContainer.className = "button_container";
+    buttonContainer.className = "row button_container";
 
     // back
 
@@ -125,17 +228,9 @@ function makeVideoPage(data) {
     videoGridDiv.appendChild(videoDescription);
     videoDescription.appendChild(videoDescriptionText);
 
-    // h2 - tengd myndbönd
-    var videoRelated = document.createElement("h2");
-    videoRelatedText = document.createTextNode("Tengd myndbönd");
-    videoGridDiv.appendChild(videoRelated);
-    videoRelated.appendChild(videoRelatedText);
-
-    // related videos
-
-    var videoRelated = document.createElement("video");
-    videoRelated.src = singleVideo.poster;
-    videoGridDiv.appendChild(videoRelated);
+    //tengd myndbönd
+    let relVideos = makeRelatedVideosSection(parseInt(idParam), data);
+    //videoGridDiv.appendChild(relVideos, data);
 
     main.appendChild(videoGridDiv);
   } else {

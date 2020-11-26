@@ -2,6 +2,33 @@
   video {
     width: 100%;
   }
+
+  .button_container {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    width: 400px;
+
+    @media(max-width: 500px) {
+      width: 240px;
+    }
+  }
+
+  button {
+    width: 75px;
+    height: 75px;
+    background-color: transparent;
+    border: none;
+    @media(max-width: 500px) {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  button img {
+    object-fit: fill;
+    width: 100%;
+  }
 }
 
 .singleVideo__Title {
