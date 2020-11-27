@@ -14,7 +14,14 @@ Til þess að keyra eslint er eftirfarandi skipun keyrð:
 npm run eslint
 
 Til þess að keyra stylelint er eftirfarandi skipun keyrð:
-npm run stylelint
+npm run lint
+
+Til þess að keyra eslint og stylelint saman er eftirfarandi skipun keyrð: 
+npm test
+
+## Uppsetning 
+
+Kóðanum fyrir vefsíðuna er skipt í möppurnar scss og src. Í src/index.js er náð í upplýsingarnar úr videos.json skránni. Í src/tools/videos.js er vefsíðan fyrir myndböndin búin til. Þessi skrá inniheldur kóða sem setur upp t.d. takkana sem notaðir eru til að spila myndbandið, fletta áfram, fara í fullscreen, o.fl. Í scss möppunni er sass kóðanum skipt í nokkrar skrár eftir því hvaða hluta af vefsíðunni er verið að vinna með. 
 
 ## Hópameðlimir
 

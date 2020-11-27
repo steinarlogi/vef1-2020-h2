@@ -4,15 +4,16 @@
   "description": "Verkefnið felst í því að smíða vef lítinn myndbandavef sem nýtir gögn úr JSON skrá.",
   "main": "index.js",
   "scripts": {
-    "eslint": "eslint src/lib/*.js src/*.js",
+    "eslint": "eslint src/tools/*.js src/*.js",
     "rollup-watch": "rollup -c -w",
     "babel": "babel src --out-dir dist",
     "babel-watch": "babel src --out-dir dist --watch",
     "browser-sync": "browser-sync start --server --files index.html dist/*.js scss/*.scss",
     "sass": "node-sass --source-map-embed -i ./scss/styles.scss ./css/styles.css",
     "sass-watch": "node-sass --source-map-embed  -w scss/styles.scss -o css",
-    "stylelint": "stylelint styles.scss ./**/*.scss",
-    "dev": "concurrently npm:browser-sync npm:sass-watch npm:rollup-watch"
+    "lint": "stylelint styles.scss ./**/*.scss",
+    "dev": "concurrently npm:browser-sync npm:sass-watch npm:rollup-watch",
+    "test": "concurrently npm:eslint src/tools/*.js src/*.js npm:lint styles.scss ./**/*.scss"
   },
   "repository": {
     "type": "git",
