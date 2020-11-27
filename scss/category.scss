@@ -1,12 +1,11 @@
-.Category {
-
+.category {
   &__Title {
     font-size: 2em;
     padding: 1em;
     padding-left: 0;
     padding-top: 0;
 
-    @media(max-width: 600px) {
+    @media (max-width: 600px) {
       font-size: 1em;
     }
   }

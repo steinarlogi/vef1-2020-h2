@@ -1,25 +1,26 @@
-.playVideo {
+.playvideo {
   video {
     width: 100%;
   }
 
-  .button_container {
+  .button-container {
     display: flex;
     justify-content: space-between;
     margin: auto;
     width: 400px;
 
-    @media(max-width: 500px) {
+    @media (max-width: 500px) {
       width: 240px;
     }
   }
 
   button {
-    width: 75px;
-    height: 75px;
     background-color: transparent;
-    border: none;
-    @media(max-width: 500px) {
+    border: 0 solid transparent;
+    height: 75px;
+    width: 75px;
+
+    @media (max-width: 500px) {
       height: 40px;
       width: 40px;
     }
@@ -31,7 +32,7 @@
   }
 }
 
-.singleVideo__Title {
+.singlevideo-title {
   font-size: 5vw;
   margin-top: 1.5em;
   text-align: center;

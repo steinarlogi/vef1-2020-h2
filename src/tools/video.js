@@ -71,7 +71,7 @@ function createCreatedDate(created) {
 
 function createTitle(title) {
   var categoryHeading = document.createElement("h1");
-  categoryHeading.className = "singleVideo__Title";
+  categoryHeading.className = "singlevideo-title";
   var categoryHeadingText = document.createTextNode(title);
   categoryHeading.appendChild(categoryHeadingText);
   return categoryHeading;
@@ -96,11 +96,11 @@ function createRelatedVideos(data, singleVideo) {
       // related videos
       // link
       var videoRelated = document.createElement("a");
-      videoRelated.className = "col col-4 col-md-12 singleVideo";
+      videoRelated.className = "col col-4 col-md-12 singlevideo";
       videoRelated.href = `/video.html?id=${element.id}`;
       // poster
       let div = document.createElement("div");
-      div.className = "singleVideo__image";
+      div.className = "singlevideo__image";
 
       var videoRelatedImg = document.createElement("img");
       videoRelatedImg.src = element.poster;
@@ -146,7 +146,7 @@ function makeVideoPage(data) {
 
     //video
     let videoGridDiv = document.createElement("div");
-    videoGridDiv.className = "playVideo grid";
+    videoGridDiv.className = "playvideo grid";
 
     let videoRowDiv = document.createElement("div");
     videoRowDiv.className = "row";
@@ -164,7 +164,7 @@ function makeVideoPage(data) {
     // container around buttons
 
     var buttonContainer = document.createElement("div");
-    buttonContainer.className = "row button_container";
+    buttonContainer.className = "row button-container";
 
     // back
 

@@ -76,7 +76,7 @@ function createVideos(data, videos) {
     //create single video section
     var videoSection = document.createElement("a");
 
-    videoSection.className = "col col-4 col-md-12 singleVideo";
+    videoSection.className = "col col-4 col-md-12 singlevideo";
     //title,description,duration,poster,video
     var video = data.videos.find((x) => x.id == element);
     videoSection.href = `/video.html?id=${video.id}`;
@@ -85,7 +85,7 @@ function createVideos(data, videos) {
     var videoPoster = document.createElement("img");
     videoPoster.src = video.poster;
     var imgDiv = document.createElement("div");
-    imgDiv.className = "singleVideo__image";
+    imgDiv.className = "singlevideo__image";
     imgDiv.appendChild(videoPoster);
     videoSection.appendChild(imgDiv);
 
@@ -173,7 +173,7 @@ export function createCategories(data) {
   main.className = "grid";
   data.categories.forEach((element) => {
     var categorySection = document.createElement("section");
-    categorySection.className = "Category";
+    categorySection.className = "category";
     var categoryHeading = document.createElement("h2");
     categoryHeading.className = "Category__Title";
     var categoryHeadingText = document.createTextNode(element.title);

@@ -1,5 +1,4 @@
-.singleVideo {
-
+.singlevideo {
   margin-bottom: 1em;
   text-decoration: none;
 
@@ -9,7 +8,7 @@
     padding-top: 0.5em;
   }
 
-  & > span {
+  > span {
     color: #000;
   }
 
@@ -23,9 +22,10 @@
   }
 
   &__image span {
+    background-color: rgba(0, 0, 0, 0.4);
     bottom: 6%;
+    color: #fff;
     display: flex;
-    color: #FFF;
     flex-direction: column;
     height: 9%;
     justify-content: center;
@@ -34,6 +34,5 @@
     position: absolute;
     right: 3%;
     text-align: center;
-    background-color: rgba(0,0, 0, 0.4);
   }
 }
